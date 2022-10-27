@@ -1,0 +1,1 @@
+<a href="{{ url("/InsWebinars/$row->id") }}" class="btn btn-primary">View</a>

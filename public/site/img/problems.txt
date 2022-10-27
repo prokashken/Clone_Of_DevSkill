@@ -1,0 +1,156 @@
+Schema::create('users', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('name')->nullable()->after('id');
+            $table->string('image_path')->nullable()->after('name');
+            $table->string('mbl_country')->nullable()->after('image_path');
+            $table->string('mbl_number')->nullable()->after('mbl_country');
+            $table->text('biography')->nullable()->after('mbl_number');
+            $table->string('currently')->nullable()->after('biography');
+            $table->string('university')->nullable()->after('currently');
+            $table->string('inerested_tpc')->nullable()->after('university');
+            $table->string('linkdin_link')->nullable()->after('inerested_tpc');
+            $table->string('timezone')->nullable()->after('linkdin_link');
+            $table->string('country')->nullable()->after('timezone');
+            $table->string('ref_code')->nullable()->after('country');
+            $table->string('gender')->nullable()->after('ref_code');
+            $table->string('company')->nullable()->after('gender');
+            $table->string('designation')->nullable()->after('company');
+            $table->string('ref_own')->unique()->nullable();
+            $table->string('ref_by')->nullable();
+            $table->boolean('is_admin')->default(0);
+            $table->boolean('instructor')->default(0);
+
+
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+
+
+
+
+
+ Schema::create('courses', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('author_id')->constrained('users');
+            $table->string('title');
+            $table->string('banner_path');
+            $table->string('tag');
+            $table->text('summary');
+            $table->double('fee');
+            $table->string('schedule');
+            $table->date('srt_date');
+            $table->double('discount')->nullable();
+            $table->string('batch');
+            $table->string('prerequisite');
+            $table->date('last_date');
+            $table->string('dbanner_path');
+            $table->string('course_status')->default("Not Started");
+            $table->string('class_link')->nullable();
+            $table->string("status")->comment("Status for Admin to approved")->default("Pending");
+            $table->string("next_class_date")->nullable();
+
+            $table->timestamps();
+        });
+
+
+
+         Schema::create('course_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('course_id')->constrained('courses');
+            $table->string('class_title');
+            $table->text('class_topics');
+            $table->timestamps();
+        });
+
+
+        Schema::create('user_course', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('course_id')->constrained('courses');
+            $table->timestamps();
+        });
+
+
+
+
+
+         Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image_path');
+            $table->double('price');
+            $table->integer('stock')->default(0);
+            $table->text('description');
+            $table->text('specifications');
+            $table->timestamps();
+        });
+
+
+
+         Schema::create('devcoins', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->integer('coin')->nullable();
+            $table->integer('coin_expen')->nullable();
+            $table->timestamps();
+        });
+
+
+         Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('product_id')->constrained('products');
+            $table->integer('amount');
+            $table->integer('status')->default(0);
+            $table->string('invoice_number')->nullable();
+            $table->text('shipment_address')->nullable();
+            $table->timestamps();
+        });
+
+
+
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string("title");
+            $table->text("description");
+            $table->double("view_count")->default(0);
+            $table->string("status")->default("Pending");
+            $table->timestamps();
+        });
+
+
+        Schema::create('videos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('image_path')->nullable();
+            $table->string('link')->nullable();
+            $table->string('title');
+            $table->text('descrip');
+            $table->string("status")->default("Pending");
+            $table->string('schedule');
+            $table->timestamps();
+        });
+
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->morphs('commentable');
+            $table->text('details');
+            $table->timestamps();
+        });
+
+
+          Schema::create('faqs', function (Blueprint $table) {
+            $table->id();
+            $table->string('question');
+            $table->text('answer');
+            $table->timestamps();
+        });
