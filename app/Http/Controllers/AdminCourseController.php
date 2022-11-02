@@ -112,22 +112,22 @@ class AdminCourseController extends Controller
             $image_path2 = $request->file('dbanner_image')->store('course_details','public');
         }
         
-        $course = new Course();
-        $course->author_id = Auth::id();
-        $course->title = $request->title;
-        $course->course_status = $request->course_status;
-        $course->batch =  $request->batch;
-        $course->prerequisite =  $request->prerequisite;
-        $course->banner_path = $image_path1;
-        $course->dbanner_path = $image_path2;
-        $course->tag = $request->course_for;
-        $course->summary = $request->summary;
-        $course->fee = $request->fee;
-        $course->discount = $request->discount;
-        $course->schedule = $request->schedule;
-        $course->srt_date = $request->strt_date;
-        $course->last_date = $request->last_date;
-        $course->save();
+            $course = new Course();
+            $course->author_id = Auth::id();
+            $course->title = $request->title;
+            $course->course_status = $request->course_status;
+            $course->batch =  $request->batch;
+            $course->prerequisite =  $request->prerequisite;
+            $course->banner_path = $image_path1;
+            $course->dbanner_path = $image_path2;
+            $course->tag = $request->course_for;
+            $course->summary = $request->summary;
+            $course->fee = $request->fee;
+            $course->discount = $request->discount;
+            $course->schedule = $request->schedule;
+            $course->srt_date = $request->strt_date;
+            $course->last_date = $request->last_date;
+            $course->save();
 
         // $course_details = new CourseDetail();
         for ($i=0; $i < $request->count; $i++) { 
@@ -189,7 +189,7 @@ class AdminCourseController extends Controller
     public function update(CourseRequest $request, $id)
     {
 
-         try {
+        try {
         DB::beginTransaction();
 
                 $image_path1 = null;
@@ -244,10 +244,10 @@ class AdminCourseController extends Controller
                         //   echo $request->textid[$i++]."<br/>";
                     
             }
-       DB::commit();
-       } catch (\Throwable $th) {
+    DB::commit();
+    } catch (\Throwable $th) {
         DB::rollBack();
-       }
+    }
 
         // for ($i=0; $i < $request->count; $i++) { 
         //     $course_details = new CourseDetail();
